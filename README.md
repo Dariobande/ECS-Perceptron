@@ -41,7 +41,7 @@ $$f(x) = \begin{cases}
 1 & \text{if } x > 2 
 \end{cases}$$
 
-- **Linear region ($-2 \le x \le 2$):** Division by 4 is computed via arithmetic right bit-shift by 2 (`x >> 2`), followed by adding $1/2$ ($int\_oneHalf = 2^{14}$) via a Ripple Carry Adder.
+- **Linear region ($-2 \le x \le 2$):** Division by 4 is computed via arithmetic right bit-shift by 2 (`x >> 2`), followed by adding $1/2$ via a Ripple Carry Adder.
 - **Saturating regions ($x < -2$ and $x > 2$):** Handled by numerical magnitude comparators and multiplexers.
 
 ---
@@ -61,7 +61,7 @@ The top-level architecture is modular and partitioned into four core sub-blocks:
    - Performs a 4-level balanced binary tree summation across all 10 product terms plus bias using Ripple Carry Adders.
 
 3. **Activation Function ([`ActivationFunction.vhd`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/src/ActivationFunction.vhd)):**
-   - Compares the 21-bit input against integer threshold constants ($int\_2 = 2^{16}$, $int\_minus2 = -2^{16}$).
+   - Compares the 21-bit input against integer threshold constants.
    - Computes linear shift and RCA addition for the non-saturating zone.
 
 4. **Pipeline & Barrier Registers ([`Perceptron.vhd`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/src/Perceptron.vhd), [`PerceptronWrapper.vhd`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/src/PerceptronWrapper.vhd)):**
@@ -88,11 +88,11 @@ The top-level architecture is modular and partitioned into four core sub-blocks:
 │   ├── ActivationFunction.vhd  # Custom threshold-based activation function
 │   ├── Perceptron.vhd          # Top-level Perceptron structural design with pipeline stages
 │   └── PerceptronWrapper.vhd   # Perceptron wrapper with I/O barrier registers
-└── tb/                     # Testbenches for ModelSim / EDA Simulation
-    ├── RippleCarryAdder_tb.vhd   # Testbench for signed/unsigned RCA logic
-    ├── ParallelMultiplier_tb.vhd # Testbench for multiplier signed/unsigned operations
+└── tb/                     # Testbenches for ModelSim Simulation
+    ├── RippleCarryAdder_tb.vhd   # Testbench for RCA logic
+    ├── ParallelMultiplier_tb.vhd # Testbench for multiplier operations
     ├── ActivationFunction_tb.vhd # Testbench covering all 3 operating regions
-    └── Perceptron_tb.vhd         # Comprehensive system testbench (verifies fixed-point output & latency)
+    └── Perceptron_tb.vhd         # Comprehensive system testbench
 ```
 
 > **Note on omitted folders (`modelsim/`, `vivado/`):**  
@@ -153,10 +153,3 @@ vsim work.Perceptron_tb
    create_clock -period 15.000 -name clk [get_ports clk]
    ```
 5. Run **Synthesis** and **Implementation**.
-
----
-
-## Author
-
-- **Dario Bandecchi**
-- Master of Science in Computer Engineering — **Università di Pisa**
