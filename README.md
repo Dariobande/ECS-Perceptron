@@ -117,7 +117,7 @@ The design was synthesized and implemented targeting the **Xilinx Zynq-7000 FPGA
 
 ## Simulation & Execution Guide
 
-### Running Functional Simulation (ModelSim / GHDL / Vivado Simulator)
+### Running Functional Simulation (ModelSim)
 
 Compile the VHDL source files in order of dependency:
 
@@ -147,9 +147,8 @@ vsim work.Perceptron_tb
 ### Running Vivado Synthesis
 1. Open Xilinx Vivado and create a new RTL project for target part `xc7z010clg400-1`.
 2. Import all files from [`src/`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/src) into Design Sources and set [`PerceptronWrapper.vhd`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/src/PerceptronWrapper.vhd) as the Top Entity.
-3. Import all files from [`tb/`](file:///Users/dariobandecchi/Documents/GitHub/ECS-Perceptron/tb) into Simulation Sources.
-4. Apply timing constraint in an XDC file:
+3. Apply timing constraint in an XDC file:
    ```tcl
    create_clock -period 15.000 -name clk [get_ports clk]
    ```
-5. Run **Synthesis** and **Implementation**.
+4. Run **Synthesis** and **Implementation**.
